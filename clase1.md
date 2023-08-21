@@ -24,7 +24,7 @@ Devuelve
 Esta clase es la número 0
 ```
 
-### Python tutor
+## Python tutor
 
 Es una herramienta que permite la visualización de los procesos relacionados a la ejecución de un programa. Se accede desde [acá](https://pythontutor.com/).
 
@@ -63,9 +63,9 @@ Con ellas podemos realizar las siguientes operaciones:
 
 * Concatenación. Usamos el operador ```+``` . Con este operador podemos agregar más elementos a una string determinada
 * Acceder a un elemento en una posición determinada. Usamos el operador ```[]``` . Con este operador podemos usar números negativos siendo el ```[-1]``` el último elemento, el ```[-2]``` el anteúltimo y así.
-* Acceder a elementos en un cierto rango. Usamos el operador ```[desde : hasta]``` donde el hasta es excluyente.
+* Acceder a elementos en un cierto rango. Usamos el operador ```[desde : hasta]``` donde el hasta incluye el valor en esa posición.
 * Conocer si un elemento pertenece. Usamos el operador ```in``` .
-* Conocer si un elemento NO pertenece. Usamos el operador ``` not in``` .
+* Conocer si un elemento NO pertenece. Usamos el operador ```not in``` .
 * Repetir más de una vez una string. Usamos el operador ```*``` .
 * Conocer la longitud. Usamos el operador ```len()``` .
 * Pasar toda una string a minúscula. Usamos el operador ```.lower()``` .
