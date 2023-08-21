@@ -104,9 +104,10 @@ print(b)
     ```
 * Si tenemos dos listas y queremos armar tuplas a partir de ellas podemos usar la función  ```zip()```
     ```
-    >>> tuplasDeCuadrados = [(1,1), (2,4), (3,9), (4,16)]
-    >>> cuadrados = dict(tuplasDeCuadrados)
-    >>> cuadrados[2]
+    >>> basesCuadrado = [1,2,3,4]
+    >>> resulCuadrado = [1,4,9,16]
+    >>> cuadrados = dict(zip(basesCuadrado,resulCuadrado))
+
     ```
 
 ## Módulos
@@ -172,7 +173,7 @@ Formas de leer el .csv
 ```
 import csv
 f = open(nombre_archivo)
-filas = csv.reader(f) #iterador
+filas = csv.reader(f) #Se usa para leer el archivo. Este comando devuelve un iterador sobre el cual podemos iterar dentro
 for fila in filas:
     instrucciones
 f.close()
@@ -187,7 +188,7 @@ encabezado = next(filas) # un paso del iterador
 for fila in filas: # ahora el iterador sigue desde la segunda fila
     instrucciones
 f.close()
-```
+
 
 ## Ejercicios
 
