@@ -9,55 +9,50 @@
 
 * Colección de módulos de código abierto
 * Lo usan muchas bibliotecas
-* Provee matrices multidimensionales por medio del tipo ndarray y permite operar sobre matrices de formas eficientes
-```
-import numpy as np
+* Provee matrices multidimensionales por medio del tipo nd.array y permite operar sobre matrices de formas eficientes
 
-import numpy as np 
+### Algunas funciones útiles
 
-a = np.array([1,2,3,4,5,6])
-b = np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12]])
+#### Creación de arrays
 
-print(a[0])
-print(b[0])
-print(b[0][1])
-print(b[0,1])
-
-c = np.zeros((2,3)) #Array de 0 elementos
-d = np.ones((2,3)) 
-
-e = np.arange(4) # Vector de 4 elementos creciente que arranca en 0
-f = np.arange(-2) # Vacío
-g = np.arange(2,9,2) # Vector de los elementos del 2 al 9 saltando de 2 en 2. El 9 no lo incluye. Es exclusive porque sería como la "longitud"
-h = np.linspace(0,10, num = 5) # Vector de 5 números equiespaciados que van del 0 al 10. El 10 lo incluye. Es inclusive. Se usa para hacer gráficos
-
-
-a = np.array([1,2,3,4])
-b = np.array([5,6,7,8])
-c = np.concatenate((a,b))
-
-x = np.array([[1,2],[3,4]])
-y = np.array([[5,6],[7,8]])
-z = np.concatenate((x,y), axis = 0) # Pega la matriz una debajo de la otra
-t = np.concatenate((x,y), axis = 1) # Pega una al lado de la otra
-
-
-array_ejemplo = np.array( [
+* Crear un array: ```np.array()```
+    * Para crear vectores hacemos ```np.array([])```
+    * Para crear matrices hacemos ```np.array([[][][]])```
+        * Esto crea una matriz de una dimensión pero podemos tener de más como 
+        ```
+        array_ejemplo = np.array( [
                     [[0,1,2,3],[4,5,6,7]],
                     [[3,8,10,-1],[0,1,1,0]],
                     [[3,3,3,3],[5,5,5,5]]
                 ] ) #Matriz de 3 dimensiones
+        ```
+* Array de 0s y array de 1s:  ```np.zeros(()) & np.ones(()) ```
+* Crear un array de elementos crecientes y ordenados arrancando de 0: ```np.arange()``` 
+    * Si el número es negativo lo crea vacío 
+    * Podemos explicitarle comienzo, final (no lo incluye) y el salto: ```np.arrange(inicio, fin, paso)```
+* Crear un vector de números equiespaciados: ```np.linspace(inicio, fin, cantidad de números)```
+    * En este caso el fin es incluido
+    * Herramienta potente para graficar
 
-array_ejemplo.ndim # Dimensión
-array_ejemplo.shape # Distancia en cada eje
-array_ejemplo.size # Cantidad de elementos
+#### Manipulación de arrays
+* Para concatenar dos arrays: ```np.concatenate(())```
+    * Si son vectores pega uno después del otro
+    * Si son matrices cambia la cosa
+        * Para pegar una matriz debajo de otra: ```np.concatenate((), axis = 0)```
+        * Para pegar una al lado de la otra: ```np.concatenate((), axis = 1)```
 
-nueva1 = array_ejemplo.reshape((12,2)) #Paso los elementos a una matriz de 12x2
-nueva2 = array_ejemplo.reshape((3,-1)) #El -1 es una manera de decirle hace lo que corresponda
+* Para obtener la dimensión de un array: ```array_name.ndim```
+* Para obtener la distancia en cada eje: ```arra_name.shape```
+    * Devuelve una tupla
+* Para obtener la cantidad total de elementos: ```array_name.size```
 
-enumerate (M) devuelve tupla (índice de la fila, vector que representa fila)
-enumerate(fila) devuelve tupla (indice de la fila, elem)
-```
+* Para cambiar la forma del array: ```array_name.reshape((filas,col))```
+    * Si alguno de los parámetros es -1 entonces le estamos indicando que para esa cantidad de filas o columnas haga lo que corresponda
+
+* Para iterar:
+    * ```enumerate(M)``` devuelve tupla (índice de la fila, vector que representa fila)
+    * ```enumerate(fila)``` devuelve tupla (indice de la fila, elem)
+
 ## Pandas 
 
 * Es una extensión de numpy para manipular y analizar datos
@@ -69,7 +64,7 @@ enumerate(fila) devuelve tupla (indice de la fila, elem)
 import panda as pd
 ```
 
-Poniendolo a prueba
+### Abrir archivos 
 
 ```
 import pandas as pd
@@ -80,59 +75,37 @@ directorio = './Descargas/'
 
 fname = os.path.join(directorio,archivo)
 df = pd.read_csv(fname)
-
-
-df.head(5)
-df.columns
-df[['altura_tot','diametro']].describe()
-df['nombre_com'] == 'Ombú' #Devuelve una lista con true y false donde true es ombú y donde false no
-(df['nombre_com'] == 'Ombú').sum()
-df['nombre_com'].unique() #Devuelve todas las especies
-
-cant_ejemplares = df['nombre_com'].value_counts() #Devuelve todas las especies con su cantidad de ejemplares
-#Es como unique y sum
-cant_ejemplares.head(10) #Devuelve el top 10 
-
-df_jacarandas = df[df['nombre_com'] == 'Jacarandá'] #Solo va a agarrar los jacarandás
-#"Data frame" de jacarandás pero más chico que el original
-cols = ['altura_tot', 'diametro', 'inclinacio']
-df_jacarandas = df_jacarandas[cols]
-#Filtro más todavía el data frame
-df_jacarandas.tail()
-
-#Sin embargo, esto es una referencia. No es una copia
-
-df_jacarandas = df[df['nombre_com'] == 'Jacarandá'][cols].copy()
-#Ahora sí lo copie
-
-#Al registro podemos accederlo tanto por posición con iloc (como hacíamos con los arrays) como por
-#índice con loc (especie de clave)
-#El índice se genera cuando levantamos el data frame 
-
-df_jacarandas.iloc[0]
-#De mi nuevo data frame numera de 0 a n las posiciones en la memoria interna por lo tanto lo puedo indexar como un array
-
-df_jacarandas.loc[165]
-#En mi nuevo data frame se generan índices que pueden ser o no numéricos 
-
-#También podemos acceder a un slice
-
-df_jacarandas.iloc[0:2,1:3]
-
-#Se puede seleccionar una sola columna especificando su nombre.
-#Importante. Al tomar una sola columna se obtiene una serie en lugar de un DataFrame
-
-diametros = df_jacarandas['diametro']
-type(df_jacarandas) #pandas.core.frame.DataFrame
-type(diametros) # pandas.core.series.Series
-
 ```
+### Algunas funciones de data frames
 
-Con `df.head()` podés ver las primeras líneas de datos. Si a head le pasás un número como argumento podés seleccionar cuántas líneas querés ver. Análogamente con `df.tail(n)` verás las últimas n líneas de datos.
-
-Con `df.columns` vemos las columnas.
-
-Con `df[columnas (si es más de una es lista de listas)]`.describe() nos da una tabla con ciertas características
+* Para conocer las n primeras filas: ```df.head(n)```
+* Para conocer las últimas n filas: ```df.tail(n)```
+* Para conocer las columnas (es decir, las categorías): ```df.columns```
+* Para conocer ciertas características de las columnas: ```df[[columna1, columna2,...]].describe```
+* Supongamos el data frame del ejemplo
+    * ```df['nombre_com'] == 'Ombú'``` devuelve una lista con True y False donde True representa a los ombúes
+        * Se puede usar para cualquier dataframe siempre que sepamos el nombre de la columna y la variable a buscar
+    * ```(df['nombre_com'] == 'Ombú').sum()``` suma todos los ombúes
+        * Se puede generalizar
+    * ```df['nombre_com'].unique()``` devuelve todas las especies
+        * Se puede generalizar
+* A partir de nuestro data frame podemos generarnos otros y podemos generar series temporales
+    * En el ejemplo ```cant_ejemplares = df['nombre_com'].value_counts()``` nos devuelve todas las especies con su cantidad de ejemplares. Es una serie temporal donde los índices son los nombres de las especies y los significados la cantidad de cada una
+        * Se puede generalizar y valen algunas operaciones que ya vimos como: ```cant_ejemplares.head(10)```
+        * En general, **AL TOMAR UNA SOLA COLUMNA SE OBTIENE UNA SERIE TEMPORAL** 
+    * En el ejemplo ```df_jacarandas = df[df['nombre_com'] == 'Jacarandá']``` crea un data frame pero solo acerca de los jacarandás
+        * Con ```cols = ['altura_tot', 'diametro', 'inclinacio'] df_jacarandas = df_jacarandas[cols]``` lo filtramos todavía más
+        * Sin embargo, esto es una referencia no una copia
+            * Para copiar ```df_jacarandas = df[df['nombre_com'] == 'Jacarandá'][cols].copy()```
+* También podemos trabajar con índices en el data frame:
+    * ```df.iloc[index]``` nos permite acceder a los elementos como en un array. Cuando se crea el data frame se numera de 0 a n las posiciones en la memoria interna por lo tanto lo puedo indexar como un array
+    * ```df.loc[clave]``` en el data frame se generan una especie de índices que pueden ser alfa numéricos o no 
+    * Podemos también hacer un slice 
+        * ```df_jacarandas.iloc[0:2,1:3]```
+* Podemos renombrar columnas: ```dataframe.rename({columnas_orig : columna_nueva}, inplace = True)```
+    * ```Inplace = True ``` modifica el nombre de la columna del dataframe de nuestra memoria
+* Podemos insertar columnas en el dataframe de nuestra memoria: ```dataframe.inser(index, 'nombre', 'elemento a contener')``` donde el indice debe ser un número entre 0 y la cantidad de columnas que tenemos
+* Podemos concatenar 2 dataframes: ```pd.concat(dataframe, dataframe)``` 
 
 ## Ejercicios
 ### Ejercicio 1
@@ -159,37 +132,83 @@ def pisar_elemento(M,e):
 
 Sin embargo, si no sabemos la dimensión de la matriz podemos convertirla primero en un vector con flatten o reshape, luego la recorremos y finalmente le devolvemos su forma.
 
+### Ejercicio 3
 
+A partir del dataset ’arbolado-en-espacios-verdes.csv’ que contiene datos relacionados con el censo de arbolado realizado
+durante el año 2011 en la Ciudad de Bs. As. (también lo pueden descargar del campus), hacer lo siguiente:
+1. Cargar la información del archivo csv en un dataframe denominado data_arboles_parques
+2. Armar un dataframe que contenga las filas de los Jacarandás
+3. Armar un dataframe que contenga las filas de los Palos Borrachos
+4. Para cada uno de estos dos dataframes calcular:
+    * Cantidad de árboles;
+    * altura máxima, mínima y promedio;
+    * diámetro máximo, mínimo y promedio
+5. Definir las siguientes funciones:
+    * cantidad_arboles(parque) que dado el nombre de un parque calcule la cantidad de árboles que tiene
+    * cantidad_nativos(parque) que dado el nombre de un parque calcule la cantidad de árboles nativos.
 ```
-import pandas as pd
-import numpy as np
-import os
+data_jacarandas = data_arboles_parque[data_arboles_parque['nombre_com'] == 'Jacarandá'].copy()
+data_palos_borrachos = data_arboles_parque[data_arboles_parque['nombre_com'] == 'Palo borracho'].copy()
 
-archivo = 'arbolado-en-espacios-verdes.csv'
-directorio = './Descargas/'
+# Para saber la cantidad de jacarandás puedo o ir al data frame original y contar
+# O tomar el data frame preguntar su dimensión y tomar la cantidad de filas
+cantidad_jacarandas = data_jacarandas.shape[0]
+cantidad_palo_borrachos = data_palos_borrachos.shape[0]
 
-fname = os.path.join(directorio,archivo)
-data_arboles_parques = pd.read_csv(fname)
-
-data_arboles_parques['nombre_com'].unique()
-data_arboles_parques.columns
-data_jacarandas = data_arboles_parques[data_arboles_parques['nombre_com'] == 'Jacarandá'].copy()
-data_palos_borrachos= data_arboles_parques[data_arboles_parques['nombre_com'] == 'Palo borracho'].copy()
-cantidad_jacarandás = (data_arboles_parques['nombre_com'] == 'Jacarandá').sum()#data_jacarandas[0].shape()
-cantidad_palos_borrachos = (data_arboles_parques['nombre_com'] == 'Palo borracho').sum()
-cols = ['altura_tot', 'diametro']
-data_jacarandas = data_jacarandas[cols]
-data_jacarandas.describe()
-data_palos_borrachos = data_palos_borrachos[cols]
-data_palos_borrachos.describe()
-
+data_jacarandas[['altura_tot', 'diametro']].describe()
+data_palos_borrachos[['altura_tot', 'diametro']].describe()
 
 def cantidad_arboles(parque):
-    data_parque = data_arboles_parques[data_arboles_parques['espacio_ve'] == parque]
-    return data_parque.shape[0] #Shape me da el tamaño del eje. Por lo tanto con tomar el 0 ya está
+    df_parque = data_arboles_parque[data_arboles_parque['espacio_ve'] == parque]
+    return df_parque.shape[0]
+
 print(cantidad_arboles('GENERAL PAZ'))
 
 def cantidad_nativos(parque):
-    data_parque = data_arboles_parques[data_arboles_parques['espacio_ve'] == parque]
-    data_parque = data_parque[]
+    df_parque = data_arboles_parque[data_arboles_parque['espacio_ve'] == parque]
+    df_nativos = df_parque[df_parque['origen'] == 'Nativo/Autóctono']
+    return df_nativos.shape[0]
+
+```
+
+### Ejercicio 4
+A partir del dataset 'arbolado-publico-lineal-2017-2018.csv', que contiene datos relacionados con el arbolado público,
+localizado en la traza de la Ciudad de Bs. As. (también lo pueden descargar del campus), hacer lo siguiente:
+
+1. Cargar la información del archivo csv en un dataframe denominado data_arboles_veredas . El dataset debe tener solamente las siguiente columnas: ```cols_sel = ['nombre_cientifico', 'ancho_acera', 'diametro_altura_pecho', 'altura_arbol']```
+2. Imprimir las diez especies más frecuentes con sus respectivas cantidades
+3. Trabajaremos con las siguientes especies seleccionadas: ```especies_seleccionadas = ['Tilia x moltkei', 'Jacaranda mimosifolia', 'Tipuana tipu']```. 
+Una forma de seleccionarlas es la siguiente: ```df_lineal_seleccion = df_lineal[df_lineal['nombre_cientifico'].isin(especies_seleccionadas)```
+
+```
+cols_sel = ['nombre_cientifico', 'ancho_acera', 'diametro_altura_pecho', 'altura_arbol']
+data_arboles_veredas = data_veredas[cols_sel].copy()
+cant_arboles = data_arboles_veredas['nombre_cientifico'].value_counts()
+cant_arboles.head(10)
+especies_seleccionadas = ['Tilia x moltkei', 'Jacaranda mimosifolia', 'Tipuana tipu']
+
+df_lineal_seleccion = data_arboles_veredas[data_arboles_veredas['nombre_cientifico'].isin(especies_seleccionadas)]
+
+```
+
+### Ejercicio 5
+
+Proponemos los siguientes pasos para comparar los diámetros a la altura del pecho de las tipas en ambos tipos de
+entornos (datasets):
+1. Para cada dataset armar uno nuevo (denominarlos df_tipas_parques y df_tipas_veredas, respectivamente) seleccionando sólo las filas correspondientes a las tipas y las columnas correspondientes al diámetro, a la altura del pecho y alturas. Importante. Hacerlo como copias (usando .copy() como aprendimos previamente) para poder trabajar en estos nuevos dataframes sin modificar los dataframes grandes originales.
+2. Renombrar las columnas que muestran la altura y el diámetro a la altura del pecho para que se llamen igual en ambos dataframes. Ayuda. Explorar el comando rename.
+3. Agregar a cada dataframe (df_tipas_parques y df_tipas_veredas) una columna llamada 'ambiente', que en un caso valga siempre 'parque' y en el otro caso siempre 'vereda'.
+4. Juntar ambos datasets con el comando df_tipas = pd.concat([df_tipas_veredas, df_tipas_parques]). De esta forma tendremos en un mismo dataframe la información de las tipas distinguidas por ambiente
+
+```
+
+df_tipas_parques = data_arboles_parque[data_arboles_parque['nombre_cie'] == 'Tipuana Tipu'][['altura_tot', 'diametro']].copy()
+df_tipas_veredas = df_lineal_seleccion[df_lineal_seleccion['nombre_cientifico'] == 'Tipuana tipu'][['diametro_altura_pecho', 'altura_arbol']].copy()
+df_tipas_veredas.rename(columns={'diametro_altura_pecho' : 'diametro', 'altura_arbol' : 'altura_tot'}, inplace = True)
+# inplace = True modifica nuestra variable
+df_tipas_parques.insert(2, 'ambiente', 'parque')
+df_tipas_veredas.insert(2, 'ambiente', 'vereda')
+df_tipas = pd.concat([df_tipas_veredas, df_tipas_parques])
+
+
 ```
