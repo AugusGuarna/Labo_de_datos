@@ -85,7 +85,7 @@ ax.set_ylabel("Precio de venta por m2 de sup. cubierta (U$S)")
 
 # Eliminamos las variables que ya no utilizamos
 
-del Xs, k, ax
+del Xs, k, ax^
 
 #%%
 # ------------------------------------------
@@ -200,19 +200,25 @@ for k in k_vals:
     ### Visualizamos
     # Visualizamos los k clusters generados en funcion de su 
     # superficie cubierta (m2) y el precio por m2 de la superficie cubierta (U$S)
+    plt.figure()
     ax = sns.scatterplot(data=data_train, x='surface_covered', y= 'ppm', hue = 'cluster', pallete='viridis') 
     ax.set_xlabel(title=f'Agrupamiento con k = {k}')
     ax.set_xlabel("Superficie cubierta (m2)")
     ax.set_ylabel("Precio de venta por m2 de sup. cubierta (U$S)")
+    plt.show()
     
     ### Evaluamos
     # Almacenamos el Within-Cluster Sum of Square del modelo para el k utilizado
-    wcss =    
+    wcss.append(kmeansps.inertia_)   
 
 
 # Visualizamos el wcss en funcion de la cantidad de grupos (k) para el modelo 
 # y los datos utilizados (superficie cubierta y ppm)
-
-
+plt.plot(k_vals, wcss)
+plt.xlabel('k')
+plt.ylabel('wcss')
+plt.xticks(np.arange(min(k_vals),max(k_vals)+1),1.0)
+plt.grid()
+plt.show()
 # Eliminamos las variables que ya no utilizamos
 
